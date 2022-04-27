@@ -40,7 +40,7 @@ public class CommandRepo : ICommandRepo
             .FirstOrDefault();
     }
 
-    public IEnumerable<Command> GetCommandsPlatform(int platformId)
+    public IEnumerable<Command> GetCommandsForPlatform(int platformId)
     {
         return _context.Commands
             .Where(c => c.PlatformId == platformId)
