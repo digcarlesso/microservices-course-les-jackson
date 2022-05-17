@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pla.SyncDataService.Http;
+using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.SyncDataService.Http;
 
@@ -13,8 +14,8 @@ if (builder.Environment.IsProduction())
     builder.Services.AddDbContext<AppDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConnection"))
     );
- }
- else
+}
+else
 {
     Console.WriteLine("--> Using InMemory DB");
     builder.Services.AddDbContext<AppDbContext>(opt =>
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
